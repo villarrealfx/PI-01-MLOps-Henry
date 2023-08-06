@@ -1,7 +1,12 @@
 # Importar modulos necesarios
 import pandas as pd
 import numpy as np
+import pickle
 from ast import literal_eval
+
+# Importar funciones sklearn
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
 class Movies:
     def __init__(self, path) -> None:
@@ -10,9 +15,10 @@ class Movies:
         self.columns = self.df.columns.values
         self.df_coun = self.df[['production_countries']]
 
+
     def get_lang(self, idioma:str):
         '''
-        Función para obtener el codigo iso639 de un pais o el nombre del mismo escrito en el idioma 
+        Función para obtener el codigo iso639 de un pais o el nombre del mismo escrito en el idioma original
         '''
         lang = {
                 'aa' : 'afar',
@@ -236,7 +242,7 @@ class Movies:
          pelicula: str el nombre de una película
         '''
 
-        resul = self.df.loc[self.df['title'] == pelicula]
+        resul = self.df[self.df['title'] == pelicula]
 
         if len(resul) == 0:
             return False
@@ -340,3 +346,54 @@ class Movies:
                 records_director.append(dict_director)
 
             return return_direct, records_director
+        
+
+    def recomendacion(self, title, cosine_sim, df, indices):
+        '''
+        Retornar las 5 películas mas similares a la película pasada como parámetro.
+        
+        La función presenta una lógica estructuradacomo sigue:
+            1. Se Obtiene el índice de la película que coincide con el título.
+            2. Se Obtiene los puntajes de similitud por pares de todas las películas con esa película y
+            la convierte en una lista de tuplas.
+            3. Se Ordenan las películas según las puntuaciones de similitud del coseno.
+            4. Se Obtienen los puntajes de las 5 películas más similares. Ignorando la primera película.
+            5. Se Obtienen los índices de películas.
+            6. Se Retorna las 5 películas más similares.
+            
+        Parametros:
+        ----------
+        title: str = Obligatorio titulo de la película 
+        cosine_sim: ndarray = Puntuación de similitud del coseno
+        df: pandas.core.frame.DataFrame = Fuente de datos
+        indices: pandas.core.series.Series = index
+        '''
+
+        try:
+
+            idx = indices[title]
+
+            sim_scores = list(enumerate(cosine_sim[idx]))
+
+            sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+
+            sim_scores = sim_scores[1:6]
+
+            movie_indices = [i[0] for i in sim_scores]
+
+            return df['title'].iloc[movie_indices].values.tolist()
+        except:
+            return False
+        
+def ml_active(path):
+
+    data = pd.read_csv(path)
+
+    # Instanciar un nuevo objeto CountVectorizer y se crea vector para la columna "soup"
+    count = CountVectorizer(stop_words='english')
+    count_matrix = count.fit_transform(data['soup'])
+    similarity = cosine_similarity(count_matrix)
+    data = data.reset_index()
+    indices = pd.Series(data.index, index=data['title'])
+
+    return (similarity, data, indices)
