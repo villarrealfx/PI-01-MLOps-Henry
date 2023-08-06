@@ -2,16 +2,16 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
 import uvicorn
 
-from funtions.funtions import Movies, ml_active
+from funtions.funtions import Movies
 
 path = 'datasets/movies_reduced.csv'
-
-recomendation = ml_active('datasets/movies_ml_18.csv')
+path_r = 'datasets/ml_recomend.csv'
 
 # Crear instancia de clase películas
-movie = Movies(path=path)
+movie = Movies(path=path, path_r=path_r)
 app = FastAPI()
 
+# En esta área se cargarian los archivos .plk los mismos no se implementaron por dificultad de recursos
 # # Cargar el archivo movie_list.pkl
 # with open('datasets/movie_list.pkl', 'rb') as f:
 #     movie_list = pickle.load(f)
@@ -163,7 +163,10 @@ def recomendacion(titulo:str):
 
     titulo.strip().lower()
 
-    resul = movie.recomendacion(titulo, recomendation[0], recomendation[1], recomendation[2])  # similarity, movie_list, indices)
+    resul = movie.ml_recomm(titulo)
+
+    # Aqui se cargarian los archivo .pkl para la solicitud de recomendación
+    # resul = movie.recomendacion(titulo, similarity, movie_list, indices) 
 
     if  resul == False:
         return JSONResponse(status_code=400,

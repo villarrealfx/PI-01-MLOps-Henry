@@ -9,8 +9,10 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 class Movies:
-    def __init__(self, path) -> None:
+    def __init__(self, path, path_r) -> None:
         self.df = pd.read_csv(path)
+        self.df_r = pd.read_csv(path_r)
+        self.df_r.recommendation = self.df_r.recommendation.apply(literal_eval)
         self.shape = self.df.shape
         self.columns = self.df.columns.values
         self.df_coun = self.df[['production_countries']]
@@ -385,15 +387,32 @@ class Movies:
         except:
             return False
         
-def ml_active(path):
+        
+    def ml_recomm(self, titulo):
 
-    data = pd.read_csv(path)
+        '''
+        Retornar las 5 películas mas similares a la película pasada como parámetro.
+        
+        La función presenta una lógica estructuradacomo sigue:
+            1. Se Obtiene el índice de la película que coincide con el título.
+            2. Se Obtiene los puntajes de similitud por pares de todas las películas con esa película y
+            la convierte en una lista de tuplas.
+            3. Se Ordenan las películas según las puntuaciones de similitud del coseno.
+            4. Se Obtienen los puntajes de las 5 películas más similares. Ignorando la primera película.
+            5. Se Obtienen los índices de películas.
+            6. Se Retorna las 5 películas más similares.
+            
+        Parametros:
+        ----------
+        title: str = Obligatorio titulo de la película 
+        cosine_sim: ndarray = Puntuación de similitud del coseno
+        df: pandas.core.frame.DataFrame = Fuente de datos
+        indices: pandas.core.series.Series = index
+        '''
 
-    # Instanciar un nuevo objeto CountVectorizer y se crea vector para la columna "soup"
-    count = CountVectorizer(stop_words='english')
-    count_matrix = count.fit_transform(data['soup'])
-    similarity = cosine_similarity(count_matrix)
-    data = data.reset_index()
-    indices = pd.Series(data.index, index=data['title'])
+        resul = self.df_r[self.df_r['movie'] == titulo]
+        if len(resul) == 0:
+            return False
 
-    return (similarity, data, indices)
+        else:
+            return resul['recommendation'].values[0]
