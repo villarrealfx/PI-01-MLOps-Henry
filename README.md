@@ -49,3 +49,98 @@ la carpeta datasets deberá colocarse en el directorio raíz del oproyecto para 
 | vote_count | Numeros de votos recibidos por la pelicula, en TMDB |
 
 
+## 2 URLs
+
+1. [Render: (https://recomendacion-peliculas-cv.onrender.com/docs)](https://recomendacion-peliculas-cv.onrender.com/docs)
+
+2. [Video: https://www.loom.com/share/eb82e4350421451abb0b2f2a5fd6b62d?sid=d66369d9-bfab-4877-be42-c02eb943ac6e](https://www.loom.com/share/eb82e4350421451abb0b2f2a5fd6b62d?sid=d66369d9-bfab-4877-be42-c02eb943ac6e)
+
+3. [GitHub: https://github.com/villarrealfx/PI-01-MLOps-Henry](https://github.com/villarrealfx/PI-01-MLOps-Henry)
+
+## ETL - (Extract-Transform-Load) 
+[ir a ETL](ETL-(Extract-Transform-Load).ipynb)
+
+El proceso de Extracción, transformación y carga ETL, se realizó manteniendo una estructura previamente configurada en un modelo `CANVAS` que permitiera desarrollar los pasos necesarios en los tiempos requeridos teniendo como hitos:
+
+1. Visualización General de los datos de los dos (02) datasets suministrados
+2. Limpieza de datos.
+    * Eliminar filas Duplicadas
+    * Verificar integridad de los datos
+    * Adecuar los tipos de datos de las columnas que lo requiriesen.
+    * Eliminar columnas inecesarias por solicitud explicita en el planteamiento del problema.
+    * Eliminar registros con id duplicados.
+    * Realizar Merge de los Data Frames.
+3. Aplanar columnas anidadas.
+    * `belongs_to_collection`` : Un diccionario que indica a que franquicia o serie de películas pertenece la película
+    * `genres`` : Un diccionario que indica todos los géneros asociados a la película.
+    * `production_companies`` : Lista con las compañias productoras asociadas a la película.
+    * `production_countries`` : Lista con los países donde se produjo la película.
+    * `spoken_languages`` : Lista con los idiomas que se hablan en la pelicula
+    * `cast`` : actores de la pelicula.
+    * `crew`` : directores de la pelicula
+4. Imputar valores faltantes en columna `original_language` con el primer lenguaje que se encuentre en la lista de la columna `spoken_languages`.
+5. Realizar imputaciones y crear columnas requeridas en el enunciado del problema.
+6. Generar archivos .csv con la data limpia. 
+
+## EDA - (Exploratory-Data-Analysis-ML)
+[ir a EDA](EDA-(Exploratory-Data-Analysis-ML).ipynb)
+
+Al igual que con el ETL se siguió un procedimiento prestablecido realizando las siguientes tareas:
+
+1. Se revisó el planteamiento del problema como un problema de negocio.
+2. Se verificó ekl set de datos despues de la limpieza.
+3. Se realizó un analisis exploratorio por variable incluyendo estadísticos básicos.
+4. Se realizarón cuatro (04) analisis a variables que consideré relevantes.
+    * Analisis de variable `genres` donde se intentó visualizar cuales genero de películas  fueron los más realizados.
+    * Analisis de la variable `production_countries` tratando de encontrar que paises copan el mercado de producción cinematográfica.
+    * Analisis de la variable `budget` observando el comportamiento histórico en cuanto a las recaudaciones Obteniendose observaciones interesantes.
+    * Análisis de variable `overview` obteniendo las palabras que tienen mayor repeticiones en la variable estudiada.
+
+## ML - (Machine Learning)
+[ir a ML](ML-(Machine-Learning).ipynb)
+
+El sistema de recomendación utilizado `Content Based Filtering` realizando un algoritmo que busca similitudes entre las diferentes películas.
+
+1. Se procesaron los datos para evitar ambiguedades.
+2. Se creo una sopa de palabras con las columnas seleccionadas.
+3. Se genero modelo.
+4. Se creó función de recomendación.
+5. Se realizó test de prueba manual
+6. Se Crearón los archivos .pkl necesarios para llevar a producción el modelo.
+
+## La API
+
+La etapa final del proyecto consistió en la elaboración y deploy de una API que integrara siete (07) endpoints **obligatorios** entre los que se encuentra el sistema de recomendación realizado durante el trayecto, el mismo esta constituido de la siguiente manera:
+
+1. def **peliculas_idioma( *`Idioma`: str* )**:<br>
+    Se ingresa un idioma (como están escritos en el dataset, no hay que traducirlos!). Debe devolver la cantidad de películas producidas en ese idioma.
+
+2. def **peliculas_duracion( *`Pelicula`: str* )**:<br>
+    Se ingresa una pelicula. Debe devolver la duracion y el año.
+
+3. def **franquicia( *`Franquicia`: str* )**:<br>
+    Se ingresa la franquicia, retornando la cantidad de peliculas, ganancia total y promedio
+
+4. def **peliculas_pais( *`Pais`: str* )**:<br>
+    Se ingresa un país (como están escritos en el dataset, no hay que traducirlos!), retornando la cantidad de peliculas producidas en el mismo.
+
+5. def **productoras_exitosas( *`Productora`: str* )**:<br>
+    Se ingresa la productora, entregandote el revunue total y la cantidad de peliculas que realizo. 
+
+6. def **get_director( *`nombre_director`* )**:<br>
+    Se ingresa el nombre de un director que se encuentre dentro de un dataset debiendo devolver el éxito del mismo medido a través del retorno. Además, deberá devolver el nombre de cada película con la fecha de lanzamiento, retorno individual, costo y ganancia de la misma, en formato lista.
+
+7. def **recomendacion( *`titulo`* )**:<br>
+    Se ingresa el nombre de una película y te recomienda las similares en una lista de 5 valores.
+
+La Api fué realizada utilizando el Framework `FastAPI` de python y colocado en producción en `Render` que es un servicio para despliege desde GitHub puede consumir la API desde el siguiente enlace https://recomendacion-peliculas-cv.onrender.com/docs.
+
+## Recomendaciones:
+
+Este repositorio es de acceso **público** se recomienda:
+1. Realizar `git clone https://github.com/villarrealfx/PI-01-MLOps-Henry.git`.
+2. Bajar los archivos `movies_dataset.csv` y `credits.csv` que se encuentran en https://drive.google.com/drive/folders/1hsmKrY2O-nlOF4_BJuEd7ti3MCrF_6Cz?usp=sharing y colocarlos dentro de la carpeta datasets.
+3. Crear un entorno virtual de trabaj con alguna herramienta python tal como [venv](https://docs.python.org/3/library/venv.html).
+4. instalar las dependencias que se encuentran en el archivo `requirements.txt` utilizando el comando `pip install -r requirements.txt`.
+
+Gracias por su interes en este proyecto, para cualquier comentario o sugerencia puede comunicarse por el correo eléctronico `villarreal.fx@gmail.com`
