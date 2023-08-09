@@ -10,10 +10,10 @@ El presente proyecto práctico forma parte del curriculum para la carrera de Cie
 4. Trabajo de crear y realizar deploy de API **(Application Programming Interface)** donde quede a disposición la información necesaria para su consumo respetando y cumpliendo las características y requerimientos solicitados en el programa
 ## 1. El set de datos
 
-La información recolectada se encuentra en dos (02) archivo CSV (`movies_dataset.csv` y `credits.csv`) los cuales lo encontraras en el enlace con las siguientes características:<br>
+La información recolectada se encuentra en dos (02) archivo CSV (`movies_dataset.csv` y `credits.csv`) los cuales encontraras en el enlace con las siguientes características:<br>
 
 [Archivos `movies_dataset.csv` y `credits.csv`](https://drive.google.com/drive/folders/1hsmKrY2O-nlOF4_BJuEd7ti3MCrF_6Cz?usp=sharing)<br>
-la carpeta datasets deberá colocarse en el directorio raíz del oproyecto para que funcionen los path predeterminados en el proyecto
+los archivos deberán colocarse dentro de la carpeta `datasets` que se encuentra en el directorio raíz del proyecto para que funcionen los path predeterminados.
 
 * **`movies_dataset`**: 45466 filas y 24 columnas.
 * **`credits`** : 45476 filas y 3 columnas.
@@ -66,18 +66,18 @@ El proceso de Extracción, transformación y carga ETL, se realizó manteniendo 
 2. Limpieza de datos.
     * Eliminar filas Duplicadas
     * Verificar integridad de los datos
-    * Adecuar los tipos de datos de las columnas que lo requiriesen.
-    * Eliminar columnas inecesarias por solicitud explicita en el planteamiento del problema.
-    * Eliminar registros con id duplicados.
-    * Realizar Merge de los Data Frames.
+    * Adecuar los tipos de datos de las columnas que lo nesecitan.
+    * Eliminar columnas innecesarias por solicitud explícita en el planteamiento del problema.
+    * Eliminar registros con `id` duplicados.
+    * Realizar `merge` de los Data Frames.
 3. Aplanar columnas anidadas.
-    * `belongs_to_collection`` : Un diccionario que indica a que franquicia o serie de películas pertenece la película
-    * `genres`` : Un diccionario que indica todos los géneros asociados a la película.
-    * `production_companies`` : Lista con las compañias productoras asociadas a la película.
-    * `production_countries`` : Lista con los países donde se produjo la película.
-    * `spoken_languages`` : Lista con los idiomas que se hablan en la pelicula
-    * `cast`` : actores de la pelicula.
-    * `crew`` : directores de la pelicula
+    * `belongs_to_collection` : Un diccionario que indica a que franquicia pertenece la película
+    * `genres` : Un diccionario que indica todos los géneros asociados a la película.
+    * `production_companies` : Lista con las compañias productoras asociadas a la película.
+    * `production_countries` : Lista con los países donde se produjo la película.
+    * `spoken_languages` : Lista con los idiomas que se hablan en la pelicula
+    * `cast` : Actores de la pelicula.
+    * `crew` : Directores de la pelicula
 4. Imputar valores faltantes en columna `original_language` con el primer lenguaje que se encuentre en la lista de la columna `spoken_languages`.
 5. Realizar imputaciones y crear columnas requeridas en el enunciado del problema.
 6. Generar archivos .csv con la data limpia. 
@@ -85,15 +85,15 @@ El proceso de Extracción, transformación y carga ETL, se realizó manteniendo 
 ## EDA - (Exploratory-Data-Analysis-ML)
 [ir a EDA](EDA-(Exploratory-Data-Analysis-ML).ipynb)
 
-Al igual que con el ETL se siguió un procedimiento prestablecido realizando las siguientes tareas:
+Al igual que con el ETL se siguió un procedimiento preestablecido realizando las siguientes tareas:
 
-1. Se revisó el planteamiento del problema como un problema de negocio.
-2. Se verificó ekl set de datos despues de la limpieza.
-3. Se realizó un analisis exploratorio por variable incluyendo estadísticos básicos.
-4. Se realizarón cuatro (04) analisis a variables que consideré relevantes.
+1. Se revisó el planteamiento del problema de negocio.
+2. Se verificó el set de datos después de la limpieza.
+3. Se realizó un análisis exploratorio por variable incluyendo estadísticos básicos.
+4. Se realizarón cuatro (04) análisis a variables que consideré relevantes.
     * Analisis de variable `genres` donde se intentó visualizar cuales genero de películas  fueron los más realizados.
     * Analisis de la variable `production_countries` tratando de encontrar que paises copan el mercado de producción cinematográfica.
-    * Analisis de la variable `budget` observando el comportamiento histórico en cuanto a las recaudaciones Obteniendose observaciones interesantes.
+    * Análisis de la variable `budget` observando el comportamiento histórico en cuanto a las recaudaciones.
     * Análisis de variable `overview` obteniendo las palabras que tienen mayor repeticiones en la variable estudiada.
 
 ## ML - (Machine Learning)
@@ -102,8 +102,8 @@ Al igual que con el ETL se siguió un procedimiento prestablecido realizando las
 El sistema de recomendación utilizado `Content Based Filtering` realizando un algoritmo que busca similitudes entre las diferentes películas.
 
 1. Se procesaron los datos para evitar ambiguedades.
-2. Se creo una sopa de palabras con las columnas seleccionadas.
-3. Se genero modelo.
+2. Se creó una sopa de palabras con las columnas seleccionadas.
+3. Se generó modelo de Machine Learning.
 4. Se creó función de recomendación.
 5. Se realizó test de prueba manual
 6. Se Crearón los archivos .pkl necesarios para llevar a producción el modelo.
@@ -133,14 +133,26 @@ La etapa final del proyecto consistió en la elaboración y deploy de una API qu
 7. def **recomendacion( *`titulo`* )**:<br>
     Se ingresa el nombre de una película y te recomienda las similares en una lista de 5 valores.
 
-La Api fué realizada utilizando el Framework `FastAPI` de python y colocado en producción en `Render` que es un servicio para despliege desde GitHub puede consumir la API desde el siguiente enlace https://recomendacion-peliculas-cv.onrender.com/docs.
+La Api fué realizada utilizando el Framework `FastAPI` de python y colocado en producción en `Render` que es un servicio para despliege desde GitHub, se puede consumir la API desde el siguiente enlace https://recomendacion-peliculas-cv.onrender.com/docs.
 
 ## Recomendaciones:
 
 Este repositorio es de acceso **público** se recomienda:
 1. Realizar `git clone https://github.com/villarrealfx/PI-01-MLOps-Henry.git`.
 2. Bajar los archivos `movies_dataset.csv` y `credits.csv` que se encuentran en https://drive.google.com/drive/folders/1hsmKrY2O-nlOF4_BJuEd7ti3MCrF_6Cz?usp=sharing y colocarlos dentro de la carpeta datasets.
-3. Crear un entorno virtual de trabaj con alguna herramienta python tal como [venv](https://docs.python.org/3/library/venv.html).
+3. Crear un entorno virtual de trabajo con alguna herramienta python tal como [venv](https://docs.python.org/3/library/venv.html).
 4. instalar las dependencias que se encuentran en el archivo `requirements.txt` utilizando el comando `pip install -r requirements.txt`.
 
-Gracias por su interes en este proyecto, para cualquier comentario o sugerencia puede comunicarse por el correo eléctronico `villarreal.fx@gmail.com`
+Gracias por su interés en este proyecto, para cualquier comentario o sugerencia puede comunicarse por el correo eléctronico `villarreal.fx@gmail.com`
+
+## Bibliografía
+### Libros
+1. Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow Concepts, Tools, and Techniques to Build Intelligent Systems (2019) Aurélien Géron Published by O’Reilly Media, Inc 
+2. Pandas-Cookbook-eBook (2017) Theodore Petrou Packt Publishing
+3. Data Engineering with Python (2020) Paul Crickard Packt Publishing
+
+### Páginas web
+1. [pandas-Python Data Analysis Library](https://pandas.pydata.org/)
+2. [scikit-learn: machine learning in Python](https://scikit-learn.org/stable/)
+3. [developers.google](https://developers.google.com/machine-learning/recommendation/content-based/basics?hl=es-419)
+4. [Markdown Guide](https://www.markdownguide.org/basic-syntax/)
