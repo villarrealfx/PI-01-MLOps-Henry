@@ -60,7 +60,7 @@ los archivos deberán colocarse dentro de la carpeta `datasets` que se encuentra
 ## ETL - (Extract-Transform-Load) 
 [ir a ETL](ETL-(Extract-Transform-Load).ipynb)
 
-El proceso de Extracción, transformación y carga ETL, se realizó manteniendo una estructura previamente configurada en un modelo `CANVAS` que permitiera desarrollar los pasos necesarios en los tiempos requeridos teniendo como hitos:
+El proceso de Extracción, transformación y carga ETL, se realizó manteniendo una estructura previamente configurada en un modelo `Kanban` que permitiera desarrollar los pasos necesarios en los tiempos requeridos teniendo como hitos:
 
 1. Visualización General de los datos de los dos (02) datasets suministrados
 2. Limpieza de datos.
